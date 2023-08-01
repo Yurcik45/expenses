@@ -1,0 +1,10 @@
+.ArrowButton {
+  width: 100px;
+  height: 35px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: white;
+  color: black;
+  font-size: 13px;
+  cursor: pointer;
+}
