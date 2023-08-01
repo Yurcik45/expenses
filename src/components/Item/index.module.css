@@ -18,3 +18,9 @@
   border-right: 1px solid grey;
   font-size: 13px;
 }
+
+.trash svg {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}

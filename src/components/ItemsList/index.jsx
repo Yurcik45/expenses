@@ -4,20 +4,28 @@ import { v4 as uuid } from 'uuid'
 import { Item } from '../Item'
 import s from './index.module.css'
 
-export const ItemsList = ({ list_name }) => inject('expensessStore')(observer(({ expensessStore }) =>
+export const ItemsList = inject('expensessStore')(observer(({ expensessStore, list_name }) =>
 {
+  const [editing_item, set_editing_item] = useState(null)
+
   console.group("--- ItemsList ---")
   console.log("list_name prop: ", list_name)
+  console.log("items from storage: ", expensessStore[list_name])
+  console.log("editing item: ", editing_item)
   console.groupEnd()
-
-  const [editing_item, set_editing_item] = useState(null)
 
   const change = (id, event) =>
   {
     const { name, value } = event.target
-    console.log("edit list item", { list_name, editing_id, id, name, value })
+    console.log("edit list item", { id, name, value })
     // .. change item on mobx store
-    expensessStore[ list_name === "expensess" ? "editExpensess" : "editBenefits" ](id, name, value)
+    expensessStore[ list_name === "expensess" ? "editExpense" : "editBenefit" ](id, name, value)
+  }
+
+  const want_change = item =>
+  {
+    console.log("on want change item: ", { ...item })
+    set_editing_item({ ...item })
   }
 
   const save = item =>
@@ -35,12 +43,12 @@ export const ItemsList = ({ list_name }) => inject('expensessStore')(observer(({
 
   return (
    <div className={ s.list }>
-    { local_items.map(item =>
+    { expensessStore[list_name].map(item =>
       <Item
         key={ uuid() }
         item={ item }
-        is_edit={ editng_item?.id === item.id }
-        onWantChange={ set_editing_item }
+        is_editing={ editing_item?.id === item.id }
+        onWantChange={ want_change }
         onChange={ change }
         onSave={ save }
         onDelete={ delete_el }

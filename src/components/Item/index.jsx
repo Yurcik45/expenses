@@ -8,10 +8,11 @@ export const Item = observer(({ item, is_editing, onWantChange, onChange, onSave
   <div className={ s.Item }>
     <div className={ s.id }>{ item.id }</div>
     <Input
-      placeholder={ item.text }
-      name="text"
-      value={ is_editing  ? item.text : null }
+      placeholder={ item.name }
+      name="name"
+      value={ is_editing  ? item.name : null }
       onChange={ event => onChange(item.id, event) }
+      width={ 120 }
       disabled={ !is_editing }
     />
     <Input
@@ -19,6 +20,8 @@ export const Item = observer(({ item, is_editing, onWantChange, onChange, onSave
       name="sum"
       value={ is_editing  ? item.sum : null }
       onChange={ event => onChange(item.id, event) }
+      width={ 50 }
+      centered
       disabled={ !is_editing }
     />
     <Button
