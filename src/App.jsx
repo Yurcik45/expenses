@@ -1,35 +1,28 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { v4 as uuid } from 'uuid'
+import { NavTabs } from './components/NavTabs'
+import { ItemsList } from './components/ItemsList'
+import s from './App.module.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+export const App = () =>
+{
+  const tabs_list = [
+    { id: 0, name: "expensess", active: true },
+    { id: 1, name: "benefits", active: false },
+  ]
+
+  const [tabs, set_tabs] = useState(tabs_list)
+
+  const tab_click = id =>
+  {
+    if (tabs[id].active) return
+    set_tabs(tabs.map(tab => ({ ...tab, active: tab.id === id })))
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className={ s.container }>
+      <NavTabs tabs_list={ tabs } onClick={ tab_click } />
+      { tabs_list.map(tab => tab.active && <ItemsList key={ uuid() } list_name={ tab.name } />) }
+    </div>
   )
 }
-
-export default App
