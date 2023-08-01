@@ -1,0 +1,23 @@
+.TabsContainer {
+  width: 100%;
+  height: 70px;
+  background-color: white;
+  border-bottom: 2px solid blue;
+}
+
+.TabItem {
+  color: black;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.TabItem:hover {
+  background-color: blue;
+  color: white;
+}
+
+.active {
+  background-color: blue;
+  color: white;
+}
