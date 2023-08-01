@@ -6,8 +6,8 @@ export const NavTabs = ({ tabs_list, onClick }) =>
   { tabs_list.map(tab =>
     <div
       key={ uuid() }
-      className={ s.TabItem + " " + tab.active ? s.active : ""  }
-      styles={{ width: tabs_list.length / 100 }}
+      className={ s.TabItem + " " + `${ tab.active ? s.active : "" }` }
+      style={{ width: `${100 / tabs_list.length}%` }}
       onClick={ () => onClick(tab.id) }
     >{ tab.name }</div> )
   }
