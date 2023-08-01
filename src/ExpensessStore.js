@@ -1,8 +1,16 @@
 import { makeObservable, observable, action } from 'mobx';
 
 class ExpensessStore {
-  expensess = [];
-  benefits = [];
+  expensess = [
+    { id: 0, name: "exp1", sum: 250 },
+    { id: 1, name: "exp2", sum: 350 },
+    { id: 2, name: "exp3", sum: 450 },
+  ];
+  benefits = [
+    { id: 3, name: "ben1", sum: 550 },
+    { id: 4, name: "ben2", sum: 650 },
+    { id: 5, name: "ben3", sum: 750 },
+  ];
 
   constructor() {
     makeObservable(this, {
@@ -33,11 +41,11 @@ class ExpensessStore {
     this[type] = this[type].filter(item => item.id !== id)
   }
 
-  editExpense = (id, name, sum) => _editItem("expensess", id, name, sum)
-  editBenefit = (id, name, sum) => _editItem("benefits", id, name, sum)
+  editExpense = (id, name, sum) => this._editItem("expensess", id, name, sum)
+  editBenefit = (id, name, sum) => this._editItem("benefits", id, name, sum)
 
-  deleteExpense = id => _deleteItem("expensess", id)
-  deleteBenefit = id => _deleteItem("benefits", id)
+  deleteExpense = id => this._deleteItem("expensess", id)
+  deleteBenefit = id => this._deleteItem("benefits", id)
 
 }
 
