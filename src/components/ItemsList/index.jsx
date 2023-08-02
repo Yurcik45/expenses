@@ -10,7 +10,7 @@ export const ItemsList = inject('expensessStore')(observer(({ expensessStore, li
 
   console.group("--- ItemsList ---")
   console.log("list_name prop: ", list_name)
-  console.log("items from storage: ", expensessStore[list_name])
+  console.log("items from storage: ", expensessStore[list_name].map(i => ({ ...i })))
   console.log("editing item: ", editing_item)
   console.groupEnd()
 
@@ -18,8 +18,7 @@ export const ItemsList = inject('expensessStore')(observer(({ expensessStore, li
   {
     const { name, value } = event.target
     console.log("edit list item", { id, name, value })
-    // .. change item on mobx store
-    expensessStore[ list_name === "expensess" ? "editExpense" : "editBenefit" ](id, name, value)
+    set_editing_item({ ...editing_item, [name]: name === "sum" ? +value : value })
   }
 
   const want_change = item =>
@@ -30,6 +29,8 @@ export const ItemsList = inject('expensessStore')(observer(({ expensessStore, li
 
   const save = item =>
   {
+    // .. change item on mobx store
+    expensessStore[ list_name === "expensess" ? "editExpense" : "editBenefit" ](editing_item)
     set_editing_item(null)
     // .. make request to update item globally
   }
@@ -41,13 +42,15 @@ export const ItemsList = inject('expensessStore')(observer(({ expensessStore, li
     // .. make request to delete item globally
   }
 
+  const is_editing = id => editing_item?.id === id
+
   return (
    <div className={ s.list }>
     { expensessStore[list_name].map(item =>
       <Item
         key={ uuid() }
-        item={ item }
-        is_editing={ editing_item?.id === item.id }
+        item={ is_editing(item.id) ? editing_item : item }
+        is_editing={ is_editing(item.id) }
         onWantChange={ want_change }
         onChange={ change }
         onSave={ save }

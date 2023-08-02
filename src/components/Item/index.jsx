@@ -28,6 +28,6 @@ export const Item = observer(({ item, is_editing, onWantChange, onChange, onSave
       title={ is_editing ? "save" : "edit" }
       onClick={ () => (is_editing ? onSave : onWantChange)(item) }
     />
-    <div className={ s.trash } onClick={ onDelete } >{ trash_icon }</div>
+    <div className={ s.trash } onClick={ () => onDelete(item.id) } >{ trash_icon }</div>
   </div>
 )

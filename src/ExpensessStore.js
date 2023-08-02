@@ -41,8 +41,8 @@ class ExpensessStore {
     this[type] = this[type].filter(item => item.id !== id)
   }
 
-  editExpense = (id, name, sum) => this._editItem("expensess", id, name, sum)
-  editBenefit = (id, name, sum) => this._editItem("benefits", id, name, sum)
+  editExpense = ({ id, name, sum }) => this._editItem("expensess", id, name, sum)
+  editBenefit = ({ id, name, sum }) => this._editItem("benefits", id, name, sum)
 
   deleteExpense = id => this._deleteItem("expensess", id)
   deleteBenefit = id => this._deleteItem("benefits", id)
