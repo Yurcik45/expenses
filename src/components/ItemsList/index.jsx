@@ -8,22 +8,14 @@ export const ItemsList = inject('expensessStore')(observer(({ expensessStore, li
 {
   const [editing_item, set_editing_item] = useState(null)
 
-  console.group("--- ItemsList ---")
-  console.log("list_name prop: ", list_name)
-  console.log("items from storage: ", expensessStore[list_name].map(i => ({ ...i })))
-  console.log("editing item: ", editing_item)
-  console.groupEnd()
-
   const change = (id, event) =>
   {
     const { name, value } = event.target
-    console.log("edit list item", { id, name, value })
     set_editing_item({ ...editing_item, [name]: name === "sum" ? +value : value })
   }
 
   const want_change = item =>
   {
-    console.log("on want change item: ", { ...item })
     set_editing_item({ ...item })
   }
 

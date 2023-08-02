@@ -17,20 +17,15 @@ export const App = inject('expensessStore')(observer(({ expensessStore }) =>
 
   const tab_click = id =>
   {
-    console.log("tab clicked id", id)
     if (tabs[id].active) return
     set_tabs(tabs.map(tab => ({ ...tab, active: tab.id === id })))
   }
 
   const add_item = type =>
   {
-    console.log("add_item func: ", type)
     const is_expense = type === "expensess"
     expensessStore[ is_expense ? "addExpense" : "addBenefit" ](uuid(), is_expense ? "new exp" : "new ben", 0)
   } 
-
-  console.log("tabs", tabs)
-  console.log("active tab: ", tabs.find(t => t.active))
 
   return (
     <div className={ s.container }>
