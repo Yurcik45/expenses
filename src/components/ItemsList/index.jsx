@@ -46,10 +46,11 @@ export const ItemsList = inject('expensessStore')(observer(({ expensessStore, li
 
   return (
    <div className={ s.list }>
-    { expensessStore[list_name].map(item =>
+    { expensessStore[list_name].map((item, index) =>
       <Item
         key={ uuid() }
         item={ is_editing(item.id) ? editing_item : item }
+        index={ index }
         is_editing={ is_editing(item.id) }
         onWantChange={ want_change }
         onChange={ change }

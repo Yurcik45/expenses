@@ -4,9 +4,9 @@ import { Button } from '../Button'
 import { trash_icon } from '../../assets/common'
 import s from './index.module.css'
 
-export const Item = observer(({ item, is_editing, onWantChange, onChange, onSave, onDelete }) =>
+export const Item = observer(({ item, index, is_editing, onWantChange, onChange, onSave, onDelete }) =>
   <div className={ s.Item }>
-    <div className={ s.id }>{ item.id }</div>
+    <div className={ s.id }>{ index + 1 }</div>
     <Input
       placeholder={ item.name }
       name="name"

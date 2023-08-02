@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react'
 import { v4 as uuid } from 'uuid'
+import { observer, inject } from 'mobx-react'
 import { NavTabs } from './components/NavTabs'
+import { Actions } from './components/Actions'
 import { ItemsList } from './components/ItemsList'
 import s from './App.module.css'
 
-export const App = () =>
+export const App = inject('expensessStore')(observer(({ expensessStore }) =>
 {
   const tabs_list = [
     { id: 0, name: "expensess", active: true },
     { id: 1, name: "benefits", active: false },
   ]
 
-  const [tabs, set_tabs] = useState([])
+  const [tabs, set_tabs] = useState(tabs_list)
 
   const tab_click = id =>
   {
@@ -20,14 +22,21 @@ export const App = () =>
     set_tabs(tabs.map(tab => ({ ...tab, active: tab.id === id })))
   }
 
-  console.log("tabs", tabs)
+  const add_item = type =>
+  {
+    console.log("add_item func: ", type)
+    const is_expense = type === "expensess"
+    expensessStore[ is_expense ? "addExpense" : "addBenefit" ](uuid(), is_expense ? "new exp" : "new ben", 0)
+  } 
 
-  useEffect(() => { set_tabs(tabs_list) }, [])
+  console.log("tabs", tabs)
+  console.log("active tab: ", tabs.find(t => t.active))
 
   return (
     <div className={ s.container }>
       <NavTabs tabs_list={ tabs } onClick={ tab_click } />
+      <Actions type={ tabs.find(t => t.active).name } onAdd={ add_item } />
       { tabs.map(tab => tab.active && <ItemsList key={ uuid() } list_name={ tab.name } />) }
     </div>
   )
-}
+}))
