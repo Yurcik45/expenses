@@ -25,12 +25,12 @@ class ExpensessStore {
     })
   }
 
-  addExpense = (name, sum) => {
-    this.expensess.push({ name, sum });
+  addExpense = (id, name, sum) => {
+    this.expensess.push({ id, name, sum });
   };
 
-  addBenefit = (name, sum) => {
-    this.benefits.push({ name, sum })
+  addBenefit = (id, name, sum) => {
+    this.benefits.push({ id, name, sum })
   }
 
   _editItem = (type, id, name, sum) => {
