@@ -8,8 +8,8 @@ export const Input = ({ placeholder, name, value, onChange, centered, width, dis
     textAlign: centered ? "center" : "initial"
   }}
   placeholder={ placeholder }
-  name={ name }
-  value={ value }
+  name={ name ?? placeholder }
+  value={ value ?? "" }
   onChange={ onChange }
   disabled={ disabled }
 />
