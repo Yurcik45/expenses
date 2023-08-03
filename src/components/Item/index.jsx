@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react'
 import { Input } from '../Input'
 import { Button } from '../Button'
-import { edit_icon, trash_icon } from '../../assets/common'
+import { edit_icon, save_icon, trash_icon } from '../../assets/common'
 import s from './index.module.css'
 
 export const Item = observer(({ item, index, is_editing, onWantChange, onChange, onSave, onDelete }) =>
@@ -27,7 +27,12 @@ export const Item = observer(({ item, index, is_editing, onWantChange, onChange,
       />
     </div>
     <div className={ s.group }>
-      <div className={ s.edit_icon } onClick={ () => (is_editing ? onSave : onWantChange)(item) } >{ edit_icon }</div>
+      <div
+        className={ s.edit_icon }
+        onClick={ () => (is_editing ? onSave : onWantChange)(item) }
+      >
+        { is_editing ? save_icon : edit_icon }
+      </div>
       <div className={ s.trash_icon } onClick={ () => onDelete(item.id) } >{ trash_icon }</div>
     </div>
   </div>
