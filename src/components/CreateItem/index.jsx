@@ -5,7 +5,7 @@ import { Select } from '../Select'
 import { Button } from '../Button'
 import s from './index.module.css'
 
-export const CreateItem = inject('expensessStore')(observer(({ expensessStore }) =>
+export const CreateItem = inject('expensessStore')(observer(({ expensessStore, onCancel }) =>
 {
   const [categories, set_categories] = useState([])
   const [category, set_category] = useState(null)
@@ -40,7 +40,7 @@ export const CreateItem = inject('expensessStore')(observer(({ expensessStore })
 
   return (
     <div className={ s.container }>
-      <div className={ s.inp_container }>
+      <div className={ s.actios_container }>
         <Input
           placeholder="name"
           name="name"
@@ -70,10 +70,16 @@ export const CreateItem = inject('expensessStore')(observer(({ expensessStore })
           width={ 120 }
         />
       }
-      <Button
-        title="create"
-        onClick={ create_item }
-      />
+      <div className={ s.actions_container }>
+        <Button
+          title="create"
+          onClick={ create_item }
+        />
+        <Button
+          title="cancel"
+          onClick={ onCancel }
+        />
+      </div>
     </div>
   )
 }))
