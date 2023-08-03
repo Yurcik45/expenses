@@ -19,6 +19,8 @@ export const Select = ({ label, items, selected_item, onClick }) =>
     close()
   }
 
+  console.log("active: ", active)
+
   return (
     <ClickAwayListener onClickAway={ close }>
       <div
@@ -28,7 +30,7 @@ export const Select = ({ label, items, selected_item, onClick }) =>
       >
         { label && <div className={ s.label }>{ label }</div> }
         <div className={ s.main_item }>{ selected_item ?? "categories" }</div>
-        <div className={ active ? s.icon : s.icon_reverse }>{ select_arrow_icon }</div>
+        <div className={ active ? s.icon_reverse : s.icon }>{ select_arrow_icon }</div>
         { active && <div
           className={ s.select_container }
           style={{
@@ -38,7 +40,7 @@ export const Select = ({ label, items, selected_item, onClick }) =>
           }}
         >
           { items.map(item => <div key={ uuid() } className={ s.item } onClick={ () => onClick(item) } >
-              { item.name }
+              { item }
             </div>)
           }
         </div>}
