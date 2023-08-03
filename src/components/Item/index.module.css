@@ -19,8 +19,28 @@
   font-size: 13px;
 }
 
-.trash svg {
+.group {
+  justify-content: space-evenly;
+  height: 95%;
+}
+
+.edit_icon svg {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.trash_icon svg {
   width: 40px;
   height: 40px;
   cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .Item {
+    height: 100px;
+  }
+  .group {
+    flex-direction: column;
+  }
 }

@@ -5,12 +5,12 @@ import { Select } from '../Select'
 import { Button } from '../Button'
 import s from './index.module.css'
 
-export const CreateItem = inject('expensessStore')(observer(({ expensessStore, onCancel }) =>
+export const CreateItem = inject('expensessStore')(observer(({ expensessStore, onAdd, onCancel }) =>
 {
   const [categories, set_categories] = useState([])
   const [category, set_category] = useState(null)
   const [is_castom, set_is_castom] = useState(false)
-  const [item_data, set_item_data] = useState({ name: "", sum: 0 })
+  const [item_data, set_item_data] = useState({ name: "", sum: 0, description: "" })
 
   const change_item_data = event =>
   {
@@ -24,14 +24,6 @@ export const CreateItem = inject('expensessStore')(observer(({ expensessStore, o
     set_is_castom(item === "other")
   }
 
-  const create_item = () =>
-  {
-    console.log("category: ", category)
-    console.log("item data: ", item_data)
-    set_category(null)
-    set_item_data({ name: "", sum: 0 })
-  }
-
   useEffect(() =>
   {
     const tem_categories = [ "sport", "eat" ]
@@ -40,7 +32,7 @@ export const CreateItem = inject('expensessStore')(observer(({ expensessStore, o
 
   return (
     <div className={ s.container }>
-      <div className={ s.actios_container }>
+      <div className={ s.actions_container }>
         <Input
           placeholder="name"
           name="name"
@@ -56,6 +48,13 @@ export const CreateItem = inject('expensessStore')(observer(({ expensessStore, o
           width={ 120 }
         />
       </div>
+      <Input
+        placeholder="description"
+        name="description"
+        value={ item_data.description }
+        onChange={ change_item_data }
+        width={ 345 }
+      />
       <Select
         items={ categories }
         selected_item={ category }
@@ -73,7 +72,7 @@ export const CreateItem = inject('expensessStore')(observer(({ expensessStore, o
       <div className={ s.actions_container }>
         <Button
           title="create"
-          onClick={ create_item }
+          onClick={ onAdd }
         />
         <Button
           title="cancel"
