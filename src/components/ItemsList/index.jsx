@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { Item } from '../Item'
 import s from './index.module.css'
 
-export const ItemsList = inject('expensessStore')(observer(({ expensessStore, list_name }) =>
+export const ItemsList = inject('expensesStore')(observer(({ expensesStore, list_name }) =>
 {
   const [editing_item, set_editing_item] = useState(null)
 
@@ -22,7 +22,7 @@ export const ItemsList = inject('expensessStore')(observer(({ expensessStore, li
   const save = item =>
   {
     // .. change item on mobx store
-    expensessStore[ list_name === "expensess" ? "editExpense" : "editBenefit" ](editing_item)
+    expensesStore[ list_name === "expenses" ? "editExpense" : "editBenefit" ](editing_item)
     set_editing_item(null)
     // .. make request to update item globally
   }
@@ -30,7 +30,7 @@ export const ItemsList = inject('expensessStore')(observer(({ expensessStore, li
   const delete_el = id =>
   {
     // .. delete item from mobx store
-    expensessStore[ list_name === "expensess" ? "deleteExpense" : "deleteBenefit" ](id)
+    expensesStore[ list_name === "expenses" ? "deleteExpense" : "deleteBenefit" ](id)
     // .. make request to delete item globally
   }
 
@@ -38,7 +38,7 @@ export const ItemsList = inject('expensessStore')(observer(({ expensessStore, li
 
   return (
    <div className={ s.list }>
-    { expensessStore[list_name].map((item, index) =>
+    { expensesStore[list_name].map((item, index) =>
       <Item
         key={ uuid() }
         item={ is_editing(item.id) ? editing_item : item }

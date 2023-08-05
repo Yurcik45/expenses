@@ -7,7 +7,7 @@ export const Actions = ({ type, onAdd }) =>
   <Button
     title={ "add" + " " + type }
     onClick={ () => onAdd(type) }
-    icon={ type === "expensess" ? add_expensess_icon : add_benefit_icon }
+    icon={ type === "expenses" ? add_expensess_icon : add_benefit_icon }
     border_bottom
   />
  </div>

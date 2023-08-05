@@ -5,7 +5,7 @@ import { Select } from '../Select'
 import { Button } from '../Button'
 import s from './index.module.css'
 
-export const CreateItem = inject('expensessStore')(observer(({ expensessStore, onAdd, onCancel }) =>
+export const CreateItem = inject('expensesStore')(observer(({ expensesStore, onAdd, onCancel }) =>
 {
   const [categories, set_categories] = useState([])
   const [category, set_category] = useState(null)
