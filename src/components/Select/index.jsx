@@ -15,11 +15,9 @@ export const Select = ({ label, items, selected_item, onClick }) =>
 
   const select = item  =>
   {
-    setValue(item)
+    onClick(item)
     close()
   }
-
-  console.log("active: ", active)
 
   return (
     <ClickAwayListener onClickAway={ close }>
@@ -39,8 +37,8 @@ export const Select = ({ label, items, selected_item, onClick }) =>
             width: current["offsetWidth"] - 2,
           }}
         >
-          { items.map(item => <div key={ uuid() } className={ s.item } onClick={ () => onClick(item) } >
-              { item }
+          { items.map(item => <div key={ uuid() } className={ s.item } onClick={ () => select(item) } >
+              { item.name }
             </div>)
           }
         </div>}
