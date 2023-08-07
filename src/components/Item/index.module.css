@@ -24,16 +24,11 @@
   height: 95%;
 }
 
-.edit_icon svg {
-  width: 28px;
-  height: 28px;
+.more svg {
+  width: 35px;
+  height: 35px;
   cursor: pointer;
-}
-
-.trash_icon svg {
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
+  margin: 0 5px 0 0;
 }
 
 @media screen and (max-width: 600px) {
