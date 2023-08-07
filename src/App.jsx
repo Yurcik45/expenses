@@ -49,12 +49,6 @@ export const App = inject('expensesStore')(observer(({ expensesStore }) =>
     is_online && expensesStore.initCategories()
   }, [is_online, show_add])
 
-  console.group(" --- App --- ")
-  console.log("active tab(): ", active_tab())
-  console.log("expensesStore[active_tab().name]: ", expensesStore[active_tab().name])
-  console.log(expensesStore.expenses)
-  console.groupEnd()
-
   //if (loading) return (
   //  <div className={ s.container }>
   //    <div className={ s.loading }> loading ... </div>
