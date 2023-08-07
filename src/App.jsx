@@ -35,19 +35,19 @@ export const App = inject('expensesStore')(observer(({ expensesStore }) =>
 
   useEffect(() =>
   {
-    try { fetch(serv).then(() => is_online(true)) }
+    try { fetch(serv).then(() => set_is_online(true)) }
     catch (err) { console.log("test back connection error: ", err) }
   }, [])
 
   useEffect(() =>
   {
     is_online && expensesStore.initItems(active_tab().name)
-  }, [tabs])
+  }, [is_online, tabs])
 
   useEffect(() =>
   {
     is_online && expensesStore.initCategories()
-  }, [show_add])
+  }, [is_online, show_add])
 
   console.group(" --- App --- ")
   console.log("active tab(): ", active_tab())
