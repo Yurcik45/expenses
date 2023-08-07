@@ -66,7 +66,7 @@ export const CreateItem = inject('expensesStore')(observer(({ expensesStore, onA
       <div className={ s.actions_container }>
         <Button
           title="create"
-          onClick={ () => onAdd({ ...item_data, category }) }
+          onClick={ () => onAdd({ ...item_data, category: category ?? "other " }) }
         />
         <Button
           title="cancel"
