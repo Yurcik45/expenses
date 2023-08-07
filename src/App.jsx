@@ -5,6 +5,7 @@ import { NavTabs } from './components/NavTabs'
 import { Actions } from './components/Actions'
 import { ItemsList } from './components/ItemsList'
 import { CreateItem } from './components/CreateItem'
+import { serv } from './requests'
 import s from './App.module.css'
 
 export const App = inject('expensesStore')(observer(({ expensesStore }) =>
@@ -16,6 +17,7 @@ export const App = inject('expensesStore')(observer(({ expensesStore }) =>
 
   const [tabs, set_tabs] = useState(tabs_list)
   const [show_add, set_show_add] = useState(false)
+  const [is_online, set_is_online] = useState(false)
 
   const active_tab = () => tabs.find(t => t.active)
 
@@ -33,13 +35,25 @@ export const App = inject('expensesStore')(observer(({ expensesStore }) =>
 
   useEffect(() =>
   {
-    expensesStore.initItems(active_tab().name)
+    try { fetch(serv).then(() => is_online(true)) }
+    catch (err) { console.log("test back connection error: ", err) }
+  }, [])
+
+  useEffect(() =>
+  {
+    is_online && expensesStore.initItems(active_tab().name)
   }, [tabs])
 
   useEffect(() =>
   {
-    expensesStore.initCategories()
+    is_online && expensesStore.initCategories()
   }, [show_add])
+
+  console.group(" --- App --- ")
+  console.log("active tab(): ", active_tab())
+  console.log("expensesStore[active_tab().name]: ", expensesStore[active_tab().name])
+  console.log(expensesStore.expenses)
+  console.groupEnd()
 
   //if (loading) return (
   //  <div className={ s.container }>

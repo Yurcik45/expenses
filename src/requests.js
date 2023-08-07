@@ -22,6 +22,8 @@ const fields_check = (type, method, body) =>
   }
 }
 
+export const serv = 'http://localhost:5000/'
+
 const constructor = (type, method, body) =>
 {
   if (!fields_check(type, method, body))
@@ -29,8 +31,8 @@ const constructor = (type, method, body) =>
     console.log("request fields check failed", type, method, body)
     return
   }
-  let url = 'http://localhost:5000/'
   const is_items = type !== 'categories'
+  let url = serv
   if (is_items)
   {
     url += `items?type=${ type }`
