@@ -41,19 +41,15 @@ export const App = inject('expensesStore')(observer(({ expensesStore }) =>
 
   useEffect(() =>
   {
-    is_online && expensesStore.initItems(active_tab().name)
+    if (!is_online) return
+    expensesStore.initItems(active_tab().name)
+    set_show_add(false)
   }, [is_online, tabs])
 
   useEffect(() =>
   {
     is_online && expensesStore.initCategories()
   }, [is_online, show_add])
-
-  //if (loading) return (
-  //  <div className={ s.container }>
-  //    <div className={ s.loading }> loading ... </div>
-  //  </div>
-  //)
 
   return (
     <div className={ s.container }>
