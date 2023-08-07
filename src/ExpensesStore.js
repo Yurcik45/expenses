@@ -1,46 +1,53 @@
 import { makeObservable, observable, action } from 'mobx';
+import { get_all, post_item, patch_item, delete_item, get_all_categories, post_category } from './requests'
 
 class ExpensessStore {
+  categories = [];
   expenses = [];
   benefits = [];
 
   constructor() {
     makeObservable(this, {
+      categories: observable,
       expenses: observable,
       benefits: observable,
-      addExpense: action,
-      addBenefit: action,
-      editExpense: action,
-      editBenefit: action,
-      deleteExpense: action,
-      deleteBenefit: action,
+      addItem: action,
+      editItem: action,
+      deleteItem: action,
+      initItems: action,
+      initCategories: action,
     })
   }
 
-
-  addExpense = (id, name, sum) => {
-    this.expenses.push({ id, name, sum });
-  };
-
-  addBenefit = (id, name, sum) => {
-    this.benefits.push({ id, name, sum })
+  initItems = type =>
+  {
+    get_all(type).then(res => this[type] = res)
   }
 
-  _editItem = (type, id, name, sum) => {
-    this[type] = this[type].map(item => item.id === id ? ({ ...item, name, sum }) : item)
+  initCategories = () =>
+  {
+    get_all_categories().then(res => this.categories = res)
   }
 
-  _deleteItem = (type, id) => {
-    this[type] = this[type].filter(item => item.id !== id)
+  addItem = (type, data) =>
+  {
+    post_item(type, data).then(() => this.initItems(type))
+    const category = data.category
+    if (!category.includes('other') && [ ...this.categories.map(cat => cat.name) ].indexOf(category) === -1)
+    {
+      post_category({ name: data.category })
+    }
   }
 
-  editExpense = ({ id, name, sum }) => this._editItem("expenses", id, name, sum)
-  editBenefit = ({ id, name, sum }) => this._editItem("benefits", id, name, sum)
+  editItem = (type, data) =>
+  {
+    patch_item(type, data).then(() => this.initItems(type))
+  }
 
-  deleteExpense = id => this._deleteItem("expenses", id)
-  deleteBenefit = id => this._deleteItem("benefits", id)
-
-  initItems = (type, data) => this[type] = data
+  deleteItem = (type, id) =>
+  {
+    delete_item(type, { id }).then(() => this.initItems(type))
+  }
 
 }
 
