@@ -8,17 +8,13 @@ export const ItemsList = inject('expensesStore')(observer(({ expensesStore, list
 {
   const save = item =>
   {
-    console.log("save changed item: ", item)
     expensesStore.editItem(list_name, item)
   }
 
   const delete_el = id =>
   {
-    console.log("delete item id: ", id)
     expensesStore.deleteItem(list_name, id)
   }
-
-  const is_editing = id => editing_item?.id === id
 
   return (
    <div className={ s.list }>
