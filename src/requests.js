@@ -1,24 +1,43 @@
 
-const fields_check = (type, body) =>
+const fields_check = (type, method, body) =>
 {
-  switch (type)
+  if (type === "categories")
   {
-    case 'GET': return true; break;
-    case 'POST': return body?.name && body?.sum && body?.category; break;
-    case 'PATCH': return body?.id && body?.name && body?.sum && body?.category; break;
-    case 'DELETE': return body?.id; break;
-    default: return false; break;
+    switch (method)
+    {
+      case 'GET': return true; break;
+      case 'POST': return body?.name; break;
+      default: return false; break
+    }
+  }
+  else {
+    switch (method)
+    {
+      case 'GET': return true; break;
+      case 'POST': return body?.name && body?.sum && body?.category; break;
+      case 'PATCH': return body?.id && body?.name && body?.sum && body?.category; break;
+      case 'DELETE': return body?.id; break;
+      default: return false; break;
+    }
   }
 }
 
 const constructor = (type, method, body) =>
 {
-  if (fields_check(type, body))
+  if (!fields_check(type, method, body))
   {
     console.log("request fields check failed", type, method, body)
     return
   }
-  return fetch(`http://localhost:5000/items?type=${ type }`,
+  let url = 'http://localhost:5000/'
+  const is_items = type !== 'categories'
+  if (is_items)
+  {
+    url += `items?type=${ type }`
+  } else {
+    url += 'categories'
+  }
+  return fetch(url,
   {
     method,
     headers:
@@ -39,4 +58,8 @@ const patch_item = (type, body) => constructor(type, 'PATCH', body)
 
 const delete_item = (type, body) => constructor(type, 'DELETE', body)
 
-export { get_all, post_item, patch_item, delete_item }
+const get_all_categories = () => constructor('categories', 'GET')
+
+const post_category = body => constructor('categories', 'POST', body)
+
+export { get_all, post_item, patch_item, delete_item, get_all_categories, post_category }
