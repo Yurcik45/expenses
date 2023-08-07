@@ -5,7 +5,6 @@ import { NavTabs } from './components/NavTabs'
 import { Actions } from './components/Actions'
 import { ItemsList } from './components/ItemsList'
 import { CreateItem } from './components/CreateItem'
-import { get_all } from './requests'
 import s from './App.module.css'
 
 export const App = inject('expensesStore')(observer(({ expensesStore }) =>
@@ -17,7 +16,8 @@ export const App = inject('expensesStore')(observer(({ expensesStore }) =>
 
   const [tabs, set_tabs] = useState(tabs_list)
   const [show_add, set_show_add] = useState(false)
-  const [loading, set_loading] = useState(true)
+
+  const active_tab = () => tabs.find(t => t.active)
 
   const tab_click = id =>
   {
@@ -25,44 +25,33 @@ export const App = inject('expensesStore')(observer(({ expensesStore }) =>
     set_tabs(tabs.map(tab => ({ ...tab, active: tab.id === id })))
   }
 
-  const add_item = type =>
+  const add_item = data =>
   {
-    const is_expense = type === "expenses"
-    expensesStore[ is_expense ? "addExpense" : "addBenefit" ](uuid(), is_expense ? "new exp" : "new ben", 0)
+    expensesStore.addItem(active_tab().name, data)
+    set_show_add(false)
   } 
-
-  const [select_items, set_select_items] = useState([{ id: 0, name: "test1" }, { id: 1, name: "test2" }])
-  const [selected_item, set_selected_item] = useState(null)
-
-  const on_select_item = item =>
-  {
-    console.log("on select item: ", item)
-  }
-
-  const active_tab = () => tabs.find(t => t.active)
 
   useEffect(() =>
   {
-    get_all(active_tab().name)
-      .then(res =>
-       {
-         console.log("get all result", res)
-         set_loading(false)
-         expensesStore.initItems(active_tab().name, res)
-       })
+    expensesStore.initItems(active_tab().name)
   }, [tabs])
 
-  if (loading) return (
-    <div className={ s.container }>
-      <div className={ s.loading }> loading ... </div>
-    </div>
-  )
+  useEffect(() =>
+  {
+    expensesStore.initCategories()
+  }, [show_add])
+
+  //if (loading) return (
+  //  <div className={ s.container }>
+  //    <div className={ s.loading }> loading ... </div>
+  //  </div>
+  //)
 
   return (
     <div className={ s.container }>
       <NavTabs tabs_list={ tabs } onClick={ tab_click } />
       { show_add
-        ? <CreateItem onAdd={ onAdd } onCancel={ () => set_show_add(false) } />
+        ? <CreateItem onAdd={ add_item } onCancel={ () => set_show_add(false) } />
         : <Actions type={ active_tab().name } onAdd={ () => set_show_add(true) } />
       }
       { expensesStore[active_tab().name].length > 0
