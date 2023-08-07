@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { observer, inject } from 'mobx-react'
 import { Input } from '../Input'
 import { Select } from '../Select'
@@ -7,7 +7,7 @@ import s from './index.module.css'
 
 export const CreateItem = inject('expensesStore')(observer(({ expensesStore, onAdd, onCancel }) =>
 {
-  const [categories, set_categories] = useState([])
+  const [categories, set_categories] = useState([ ...expensesStore.categories, { id: 999, name: 'other' } ])
   const [category, set_category] = useState(null)
   const [is_castom, set_is_castom] = useState(false)
   const [item_data, set_item_data] = useState({ name: "", sum: 0, description: "" })
@@ -20,15 +20,9 @@ export const CreateItem = inject('expensesStore')(observer(({ expensesStore, onA
 
   const select_category = item =>
   {
-    set_category(item)
-    set_is_castom(item === "other")
+    set_category(item.name)
+    set_is_castom(item.name === "other")
   }
-
-  useEffect(() =>
-  {
-    const tem_categories = [ "sport", "eat" ]
-    set_categories([ ...tem_categories, "other" ])
-  }, [])
 
   return (
     <div className={ s.container }>
@@ -72,7 +66,7 @@ export const CreateItem = inject('expensesStore')(observer(({ expensesStore, onA
       <div className={ s.actions_container }>
         <Button
           title="create"
-          onClick={ onAdd }
+          onClick={ () => onAdd({ ...item_data, category }) }
         />
         <Button
           title="cancel"
